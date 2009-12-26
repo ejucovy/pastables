@@ -1,11 +1,11 @@
 def filter_factory(content_type=None, *args):
     def filter(app):
-        return ForceHtml(app, content_type=content_type)
+        return ForceContentType(app, content_type=content_type)
     return filter
 
 from webob import Request
 
-class ForceHtml(object):
+class ForceContentType(object):
 
     content_type = 'text/html'
 
