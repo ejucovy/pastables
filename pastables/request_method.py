@@ -1,20 +1,20 @@
 from webob.exc import *
 
 def composite_factory(loader, global_conf, **local_conf):
-    get = loader.get_app(local_conf['get'])
-    post = loader.get_app(local_conf['post'])
-    return MethodDispatcher(get, post)
+    apps = {}
+    for host, appname in local_conf.items():
+        host = host.upper()
+        assert host not in apps, "Duplicate assignment for request method %s" % s
+        apps[host] = loader.get_app(appname)
+    return MethodDispatcher(apps)
     
 class MethodDispatcher(object):
-    def __init__(self, get, post):
-        self.get = get
-        self.post = post
+    def __init__(self, apps):
+        self.methods = dict(apps)
 
     def __call__(self, environ, start_response):
         method = environ['REQUEST_METHOD']
-        if method == "GET":
-            return self.get(environ, start_response)
-        if method == "POST":
-            return self.post(environ, start_response)
+        if method in self.methods:
+            return self.methods[method](environ, start_response)
 
         return HTTPMethodNotAllowed()(environ, start_response)
