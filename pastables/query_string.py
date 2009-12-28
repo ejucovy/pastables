@@ -1,4 +1,7 @@
+from paste.deploy.converters import asbool
+
 def filter_factory(global_conf, qs_key=None, qs_val=None, remove_key=False):
+    remove_key = asbool(remove_key)
     def filter(app):
         return Filter(
             app,
@@ -11,7 +14,7 @@ from webob import exc
 class Filter(object):
     """ a wsgi interface to RequireQueryString """
     def __init__(self, app, qs_key=None, qs_val=None, remove_key=False):
-        self.app = all
+        self.app = app
         self.filter = RequireQueryString(qs_key, qs_val, remove_key)
 
     # XXX TODO: overridable somehow with config
