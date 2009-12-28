@@ -16,7 +16,9 @@ class ForceContentType(object):
     def __call__(self, environ, start_response):
         req = Request(environ)
 
-        res = self.app(environ, start_response)
-        res.content_type = self.content_type
+        res = req.get_response(self.app)
+
+        if res.status_int == 200:
+            res.content_type = self.content_type
 
         return res(environ, start_response)
