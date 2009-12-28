@@ -39,7 +39,7 @@ class RequireQueryString(object):
         self.qs_key = qs_val or self.qs_val
         self.remove_key = remove_key
 
-    def match(self, request):
+    def match(self, req):
         if not self.qs_key:
             return True
 
