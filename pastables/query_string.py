@@ -1,4 +1,4 @@
-def filter_factory(qs_key=None, qs_val=None, remove_key=False, *args):
+def filter_factory(global_conf, qs_key=None, qs_val=None, remove_key=False):
     def filter(app):
         return Filter(
             app,
