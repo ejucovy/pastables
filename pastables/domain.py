@@ -11,7 +11,7 @@ def composite_factory(loader, global_conf, **local_conf):
 class MethodDispatcher(object):
     def __init__(self, apps):
         self.hostmap = dict(apps) # copy
-        
+
     def __call__(self, environ, start_response):
         host = environ['HTTP_HOST'].split(':')[0]
         if host in self.hostmap:
