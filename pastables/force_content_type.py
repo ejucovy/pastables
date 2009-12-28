@@ -1,4 +1,4 @@
-def filter_factory(content_type=None, *args):
+def filter_factory(global_conf, content_type=None):
     def filter(app):
         return ForceContentType(app, content_type=content_type)
     return filter
