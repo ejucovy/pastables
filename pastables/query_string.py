@@ -22,22 +22,27 @@ class RequireQueryString(object):
     def default_app(self):
         return exc.HTTPNotFound()
 
-    def __call__(self, environ, start_response):
-        req = Request(environ)
+    def match(self, request):
         if not self.qs_key:
-            return self.app(environ, start_response)
+            return True
 
         if self.qs_key not in req.GET:
-            return self.default_app(environ, start_response)
+            return False
 
         qs_val = req.GET[self.qs_key]
         if self.remove_key:
             del req.GET[self.qs_key]
 
         if not self.qs_val:
-            return self.app(environ, start_response)
-
+            return True
         if qs_val != self.qs_val:
-            return self.default_app(environ, start_response)
+            return False
+        return True
 
-        return self.app(environ, start_response)
+
+    def __call__(self, environ, start_response):
+        req = Request(environ)
+
+        if self.match(req):
+            return self.app(environ, start_response)
+        return self.default_app(environ, start_response)        
