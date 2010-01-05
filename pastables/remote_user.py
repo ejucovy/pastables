@@ -6,7 +6,7 @@ def filter_factory(global_conf, user_whitelist=None, user_blacklist=None, basic_
 
     def filter(app):
         if basic_realm is not None:
-            return Filter(
+            return BasicAuthFilter(
                 app,
                 whitelist=user_whitelist, blacklist=user_blacklist,
                 realm=basic_realm)
