@@ -21,15 +21,14 @@ currently what we have is neither.
 from webob.exc import *
 
 def composite_factory(loader, global_conf, **local_conf):
-    domains = generate_hostmap(local_conf)
-    return MethodDispatcher(domains)
+    domains = generate_hostmap(local_conf, loader)
+    return HostDispatcher(domains)
 
 def strict_composite_factory(loader, global_conf, **local_conf):
-    domains = generate_hostmap(local_conf)
-    return MethodDispatcher(domains, loose=False)
+    domains = generate_hostmap(local_conf, loader)
+    return HostDispatcher(domains, loose=False)
 
-    
-def generate_hostmap(local_conf):
+def generate_hostmap(local_conf, loader):
     domains = {}
     for host, appname in local_conf.items():
 
@@ -41,11 +40,11 @@ def generate_hostmap(local_conf):
         assert subdomain not in domains[domain], "Duplicate assignment for host %s" % host
 
         domains[domain][subdomain] = loader.get_app(appname)
-
+    return domains
     
 
 # TODO: default?
-class LiteralHostDispatcher(object):
+class HostDispatcher(object):
     def __init__(self, apps, loose=True):
         self.hostmap = apps
         self.loose = loose
@@ -66,7 +65,7 @@ class LiteralHostDispatcher(object):
 
         domainmap = self.hostmap[domain]
         if subdomain in domainmap:
-            return domainmmap[subdomain](environ, start_response)
+            return domainmap[subdomain](environ, start_response)
 
         if not self.loose:
             if "*" in domainmap:
