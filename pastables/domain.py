@@ -12,9 +12,15 @@ class MethodDispatcher(object):
     def __init__(self, apps):
         self.hostmap = dict(apps) # copy
 
+    # XXX overridable in config somehow?
+    @property
+    def default_app(self):
+        return HTTPNotFound()
+
     def __call__(self, environ, start_response):
         host = environ['HTTP_HOST'].split(':')[0]
         if host in self.hostmap:
             return self.hostmap[host](environ, start_response)
 
-        return HTTPNotFound()(environ, start_response)
+        return self.default_app(environ, start_response)
+
