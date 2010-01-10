@@ -16,7 +16,8 @@ class ImgLinkFilter(object):
         if environ.get('HTTP_ACCEPT', '').startswith('image/'):
             return res(environ, start_response)
 
-        if res.content_type.startswith('image/'):
+        content_type = res.content_type or ''
+        if content_type.startswith('image/'):
             return Response("""<a href="%s"><img src="%s" /></a>""" % (raw_link, raw_link)
                             )(environ, start_response)
 
