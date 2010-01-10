@@ -18,7 +18,7 @@ worldofbears.net = bears-published
 currently what we have is neither.
 """
 
-from webob.exc import *
+from webob import exc
 
 def app_factory(global_conf, **local_conf):
     redirect = local_conf['redirect_to']
