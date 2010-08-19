@@ -5,14 +5,14 @@ version = '0.0'
 
 setup(name='pastables',
       version=version,
-      description="",
+      description="Assorted building blocks for WSGI applications using paste and webob",
       long_description="""\
 """,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='',
-      author='',
-      author_email='',
-      url='',
+      author='Ethan Jucovy',
+      author_email='ethan.jucovy@gmail.com',
+      url='http://github.com/ejucovy/pastables',
       license='',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
@@ -20,6 +20,7 @@ setup(name='pastables',
       install_requires=[
           # -*- Extra requirements: -*-
           'PasteDeploy',
+          "WebOb",
       ],
       entry_points="""
 [paste.composite_factory]
