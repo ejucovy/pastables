@@ -40,6 +40,7 @@ def generate_hostmap(local_conf, loader):
         assert subdomain not in domains[domain], "Duplicate assignment for host %s" % host
 
         domains[domain][subdomain] = loader.get_app(appname)
+
     return domains
     
 

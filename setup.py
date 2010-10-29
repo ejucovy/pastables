@@ -26,5 +26,7 @@ setup(name='pastables',
 [paste.composite_factory]
 domain = pastables.domain:composite_factory
 
+[paste.app_factory]
+file = pastables.file:app_factory
       """,
       )
